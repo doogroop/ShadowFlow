@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: shadowflow-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.2
+      - key: SHADOWFLOW_GEMINI_MODEL
+        value: gemini-3.8-flash
+      # sync: false -> Render prompts for these in the dashboard; they are never stored in git.
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SHADOWFLOW_CORS_ORIGINS
+        sync: false
